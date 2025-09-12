@@ -28,3 +28,16 @@ The `docker-compose.yaml` as well as the `.env` files can be found in this repos
 
 Once the setup was completed i could run the `sudo docker compose up -d` command and, as expected, the NocoDB webUI was reachable at the `http://serverLocalIP:8080` address.
 I successfully logged into the NocoDB webUI and them I could create the Users, Departments and Areas tables and started working on the two python scripts.
+
+# Telegram bot
+## Used libraries
+As requested by the task, to create the bot i used the `python-telegram-bot` library referring to [it's official documentation](https://docs.python-telegram-bot.org/en/stable/index.html)
+Other libraries were particularly handful such as:
+* [python-dotenv](https://pypi.org/project/python-dotenv/) and [os](https://docs.python.org/3/library/os.html) to load the environment variables
+* [io](https://docs.python.org/3/library/io.html) and [csv](https://docs.python.org/3/library/csv.html) to create a temporary CSV file directly in the memory without saving it on any disk
+* [requests](https://pypi.org/project/requests/) to interact with the NocoDB APIs
+
+Note that thanks to the `requirements.txt` all the python dependencies can be installed simply running `pip install -r requirements.txt`
+## Bot usage
+The python bot has only two commands: `/start` and `/list`, the first one welcomes the user while the second one lists to the user the tables present on the database and returns a csv file containing the selected table's data.
+To function correctly the bot requires some environment variables that can be found in the .env file
