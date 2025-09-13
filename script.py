@@ -22,13 +22,19 @@ def push_json():
     for i in range(len(table_list)):
         print(f"{i+1}) {table_list[i]['table_name']}")
 
-    table = table_list[int(input("\n")) - 1]
+    table = table_list[int(input("")) - 1]
 
     # Making the user select the json file to upload
-    file_path = input("What is the file full path? \n").strip()
+    file_path = input("\nWhat is the file full path? \n").strip()
 
     with open(file_path, 'r') as file:
         data = json.load(file)
+
+        # Remove void fields
+        data = [
+            {k: v for k, v in item.items() if v}
+            for item in data
+        ]
 
         # Pushing the new entries in the selected table
         request = r.post(
@@ -36,8 +42,9 @@ def push_json():
             headers=AUTH_HEADER,
             json=data
         )
-        # Professional debug
-        print(request.json())
+
+        if (request.status_code != 200):
+            raise RuntimeError(f"Request failed with status code {request.status_code}\n{request.json()}")
 
 def main():
     data_insertion_needed = True
@@ -46,7 +53,7 @@ def main():
         try:
             push_json()
 
-            data_insertion_needed = True if (input("Would you like to upload another file? [y/N] ") == "y") else False
+            data_insertion_needed = True if (input("Would you like to upload another file? [y/N] ").lower() == "y") else False
 
         except Exception as e:
             print(f"An error occurred: {e}")
