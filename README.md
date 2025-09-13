@@ -19,7 +19,7 @@ user@recruiting-hr1:~$ which python3
 
 ## NocoDB installation
 The second task in order of business was to install NocoDB in the VM, to do so i decided to use docker compose as to as make the maintenance of the future whole application stack easier.
-Following the [official NocoDB docker cocumentation](https://nocodb.com/docs/self-hosting/installation/docker) i pulled the official NocoDB repository via the command `
+Following the [official NocoDB docker cocumentation](https://nocodb.com/docs/self-hosting/installation/docker) i pulled the official NocoDB repository via the command 
 `git clone https://github.com/nocodb/nocodb` i than moved to the `nocodb/docker-compose/2_pg` directory and i slightly modified the default compose with these goals:
 * Remove postgres sensible information (user, password, and database name) frome the file to use a .env
 * Create a custom network to make it easier to group the stack's container
