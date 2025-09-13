@@ -57,16 +57,23 @@ async def list_tables(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
         # Retrieve the list of existing tables
         tables = r.get(
-                   f"http://{os.getenv('SERVER_URL')}/api/v2/meta/bases/{os.getenv('BASE_ID')}/tables",
-                   headers=AUTH_HEADER,
-                ).json()
+            f"http://{os.getenv('SERVER_URL')}/api/v2/meta/bases/{os.getenv('BASE_ID')}/tables",
+            headers=AUTH_HEADER,
+        ).json()
 
         tables = tables["list"]
         keyboard = []
 
         # Crating the keyboard with the available tables
         for i in range(len(tables)):
-            keyboard.append([InlineKeyboardButton(tables[i]['name'], callback_data=tables[i]['id'])])
+            keyboard.append([
+                InlineKeyboardButton(
+                    tables[i]['table_name'],
+                    callback_data=str(
+                        {"table_name" : tables[i]['table_name'], "table_id" : tables[i]['id']}
+                    )
+                )
+            ])
 
         reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -88,7 +95,7 @@ async def list_items(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     # Retrieve the selected table content
     table_content = r.get(
-        f"http://{os.getenv('SERVER_URL')}/api/v2/tables/{query.data}/records",
+        f"http://{os.getenv('SERVER_URL')}/api/v2/tables/{eval(query.data)['table_id']}/records",
         headers=AUTH_HEADER
     ).json()
 
@@ -99,7 +106,7 @@ async def list_items(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     await context.bot.send_document(
         chat_id=update.effective_chat.id,
         document=csv_file,
-        filename="members.csv"
+        filename=f"{eval(query.data)['table_name']}.csv"
     )
 
     del csv_file
