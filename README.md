@@ -26,10 +26,21 @@ Following the [official NocoDB docker cocumentation](https://nocodb.com/docs/sel
 
 The `docker-compose.yaml` as well as the `.env` files can be found in this repository as all the other files whose upload was requested by the task.
 
+### Environment variables
+In particular, the database expects the following environment variables:
+```
+POSTGRES_USR    (the database's user)
+POSTGRES_PWD    (the corresponding password)
+POSTGRES_DB     (the database's name)
+```
+
 Once the setup was completed i could run the `sudo docker compose up -d` command and, as expected, the NocoDB webUI was reachable at the `http://serverLocalIP:8080` address.
 I successfully logged into the NocoDB webUI and them I could create the Users, Departments and Areas tables and started working on the two python scripts.
 
 # Telegram bot
+
+After the database's setup was completed I could add the `Users`, `Areas` and `Departments` table and start working on the telegram bot.
+
 ## Used libraries
 As requested by the task, to create the bot i used the `python-telegram-bot` library referring to [it's official documentation](https://docs.python-telegram-bot.org/en/stable/index.html)
 Other libraries were particularly handful such as:
@@ -41,3 +52,57 @@ Note that thanks to the `requirements.txt` all the python dependencies can be in
 ## Bot usage
 The python bot has only two commands: `/start` and `/list`, the first one welcomes the user while the second one lists to the user the tables present on the database and returns a csv file containing the selected table's data.
 To function correctly the bot requires some environment variables that can be found in the .env file
+
+## Environment variables
+To work properly this bot expects the following environment variables:
+```
+# Database variables
+DB_KEY              (the database API key)
+SERVER_URL          (NocoDB webui's socket)
+BASE_ID             (the current base id)
+
+# Telegram variables
+TELEGRAM_API_KEY    (the API key given by BotFather)
+ALLOWED_USERS       (a list of the allowed user's usernames without the @)
+
+```
+
+# JSON script
+
+This was the last and significantly harder part due to the fact that I never used the NocoDB's REST APIs and, in addiction, i found the documentation quite disorganised.
+
+## Script structure
+
+This script follows always the same list of step:
+* First of all it shows the user the list of the tables on the database and asks him which one to upload the data to
+* After that it asks the user for the json file's absolute path
+* Then it tries to upload the file's content to the selected table
+* After that it checks if there are any links declared in the `.env` file for the selected table
+* It upload eventual links
+* It asks the user if there are any other files to be uploaded
+
+## Environment variables
+To work properly this bot expects the following environment variables:
+```
+# Database variables
+DB_KEY              (the database API key)
+SERVER_URL          (NocoDB webui's socket)
+BASE_ID             (the current base id)
+
+# Script variables
+LINKS_DESCRIPTION=
+    [
+        {
+            "table_name" : "(the name of the table of which links are being defined)",  
+            "links" : 
+                [
+                    {
+                        "id" : "(the link's id)",
+                        "field_name" : "(the linked field name)",
+                        "linked_table_name" : "(The name of the table that contains the link values)"
+                    },
+                ]
+        }
+    ]
+
+```

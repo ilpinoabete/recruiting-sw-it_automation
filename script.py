@@ -195,7 +195,7 @@ def main():
         table = list_tables()
 
         # Get the full path of the JSON file from the user.
-        file_path = input("\nWhat is the file full path? \n").strip()
+        file_path = input("\nWhat is the file's absolute path? \n").strip()
 
         # Try to open and load the JSON data from the specified file.
         try:
