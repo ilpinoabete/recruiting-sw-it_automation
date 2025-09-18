@@ -82,7 +82,7 @@ This script follows always the same list of step:
 * It asks the user if there are any other files to be uploaded
 
 ## Environment variables
-To work properly this bot expects the following environment variables:
+To work properly this script expects the following environment variables:
 ```
 # Database variables
 DB_KEY              (the database API key)
