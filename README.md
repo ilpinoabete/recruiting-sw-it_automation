@@ -66,6 +66,11 @@ TELEGRAM_API_KEY    (the API key given by BotFather)
 ALLOWED_USERS       (a list of the allowed user's usernames without the @)
 
 ```
+## Usage example
+
+<img style="width: 30%" src="./demo/bot-telegram.png">
+
+The file that the bot is returning is the following [Users.csv](./demo/Users.csv)
 
 # JSON script
 
@@ -104,5 +109,26 @@ LINKS_DESCRIPTION=
                 ]
         }
     ]
+
+```
+## Usage example
+
+```
+/home/pinoabete/Documents/Code/recruiting-sw-it_automation/.venv/bin/python /home/pinoabete/Documents/Code/recruiting-sw-it_automation/script.py 
+What table do you want to import the data to?
+1) Users
+2) Areas
+3) Departments
+1
+
+What is the file's absolute path? 
+/home/pinoabete/Downloads/users.json
+
+Successfully inserted 5 records. Now attempting to link fields...
+
+
+Would you like to upload another file? [y/N] N
+
+Process finished with exit code 0
 
 ```
